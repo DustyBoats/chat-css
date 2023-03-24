@@ -1,126 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
 
-    <style>
-      :root {
-        --primary-color: #444;
-        --secondary-color: #4CAF50;
-        --hover-color: #0056b3;
-        --light-gray: #f5f5f5;
-        --dark-gray: #2c2c2c;
-        --font-size: 16px;
-        --border-radius: 8px;
-        --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.5" />
+  <title>Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/DustyBoats/stylesheet.css@main/stylesheet.css" rel="stylesheet" />
+  <style>
+    #chat-box {
+      width: 100%;
+      height: 300px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
 
-      body {
-        font-family: "Sanchez", Georgia, serif;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        margin: 0;
-        font-size: var(--font-size);
-      }
+<body>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Dish_Network_logo_2012.svg" alt="Logo" /><br>
+    <h3>Your Virtual Immigration<br>Consultant, Phoebe</h3>
+  </header>
+  <div id="chat-container">
+    <div id="chat-box"></div>
+    <div id="button-container">
+      <button id="reset" class="chat-reset">Reset</button>
+      <button id="previous-question" class="chat-previous">Previous Question</button>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-      header {
-        text-align: center;
-        margin-bottom: 20px;
-        color: white;
-        background-color: var(--primary-color);
-        padding: 20px;
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
-        box-shadow: var(--box-shadow);
-        width: 90%;
-        max-width: 500px;
-        position: relative;
-      }
+   const chatData = {
+        q1: {
+          Question: "What can I help you with today?",
+          Choices: {
+            a1: "FAQ's",
+            a2: "Recruiter Support",
+            a3: "Visa Sponsorship Eligibility Guide"
+          },
+          Answer_ID: {
+            a1: "a1",
+            a2: "a2",
+            a3: "a3"
+          },
+          Next_Question_ID: {
+            a1: "q2",
+            a2: "q3",
+            a3: "q4"
+          }
+        },
+        q2: {
+          Question: "Fantastic, you would like FAQ's. Which of the following best describes your role",
+          Choices: {
+            a1: "Manager",
+            a2: "Employee",
+            a3: "Recruiter"
+          },
+          Answer_ID: {
+            a1: "am1",
+            a2: "ae2",
+            a3: "ar3"
+          },
+          Next_Question_ID: {
+            a1: "q5",
+            a2: "q6",
+            a3: "q7"
+          }
+        },
+q3: {
+          Question: "Fantastic, I can provide general guidance to assist you through many of your Immigration needs. What can I help you with today?",
+          Choices: {
+            a1: "Manager",
+            a2: "Employee",
+            a3: "Recruiter",
+            a4: "Manager",
+            a5: "Employee"
 
-      header h3 {
-        font-weight: 900;
-        margin: 0;
-        font-size: 16px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-      }
+          },
+          Answer_ID: {
+            a1: "adnbr1",
+            a2: "adwbr2",
+            a3: "aii3",
+            a4: "aiqa4",
+            a5: "acqa5"
 
-      header img {
-        position: absolute;
-        top: 2px;
-        left: 5px;
-        width: 40px;
-        height: 40px;
-      }
- #chat-container {
-        display: flex;
-        flex-direction: column;
-        width: 90%;
-        max-width: 500px;
-        background-color: #fff;
-        border-radius: 0 0 var(--border-radius) var(--border-radius);
-        box-shadow: var(--box-shadow);
-        padding: 20px;
-      }
+          },
+          Next_Question_ID: {
+            a1: "q11",
+            a2: "q12",
+            a3: "q13",
+            a4: "q14",
+            a5: "q15"
+          }
+        },
 
-      #chat-box {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid var(--light-gray);
-        padding: 10px;
-        max-height: 400px;
-        overflow-y: auto;
-        margin-bottom: 10px;
-        border-radius: var(--border-radius);
-      }
+q4: {
+          Question: "Wonderful, please select a Visa Type and I can provide guidance on its' eligibility",
+          Choices: {
+            a1: "H-1B (Specialty Occupation)",
+            a2: "TN (Mexican or Canadian Citizen)",
+            a3: "F-1: CPT/OPT/OPT STEM (Work Authorization Sponsored by School)",
+            a4: "E-3 (Australian Citizen)",
+            a5: "O-1 (Extraordinary Ability)",
+            a6: "L-1 (Intracompany Transfer)",
+            a7: "H4",
+            a8: "I-485/EAD",
+            a9: "L2",
+            a810: "Asylum",
+            a911: "Temporary Protected Status",
+            a12: "Visa Type not listed"
 
-      .chat-message {
-        margin-bottom: 10px;
-        padding: 10px;
-        border-radius: var(--border-radius);
-        max-width: 80%;
-        font-size: var(--font-size);
-      }
+          },
+          Answer_ID: {
+            a1: "aq16h1",
+            a2: "aq16t2",
+            a3: "aq16e3",
+            a4: "aq16f4",
+            a5: "aq16o5",
+            a6: "aq16l6",
+            a7: "aq16h47",
+            a8: "aq16ead8",
+            a9: "aq16l29",
+            a10: "aq16as10",
+            a11: "aq16tps11",
+            a12: "aq16vt12"
 
-      .user {
-        align-self: flex-end;
-        background-color: var(--primary-color);
-        color: #fff;
-        font-weight: 900;
-        letter-spacing: 1px;
-      }
+          },
+          Next_Question_ID: {
+            a1: "q16",
+            a2: "q17",
+            a3: "q18",
+            a4: "q19",
+            a5: "q20",
+            a6: "q21",
+            a7: "q22",
+            a8: "q23",
+            a9: "q24",
+            a10: "q25",
+            a11: "q26",
+            a12: "q27"
+          }
+        },
+  q5: {
+          Question: "Got it, you’re a Manager. Are you inquiring about:",
+          Choices: {
+            a1: "Yourself",
+            a2: "Employee",
+            a3: "Applicant"
+          },
+          Answer_ID: {
+            a1: "aq5y1",
+            a2: "aq5e2",
+            a3: "aq5a3"
+          },
+          Next_Question_ID: {
+            a1: "q8",
+            a2: "q9",
+            a3: "q10"
+          }
+        },
+		Applicant 	aq5a3	q10																						
+																										
+q6	Please confirm your Visa Type 	H-1B	aq6h1	q28																						
+		TN	aq6t2	q29																						
+		L-1	aq6l3	q30																						
+		CPT	aq6c4	q31																						
+		OPT	aq6o5	q32																						
+		OPT STEM	aq6os6	q33																						
+		O-1	aq6op7	q34																						
+		Visa Type not listed 	aq6vt8	q35																						
+		Other - H4/L2/EAD	aq6ai9	q36																						
+	q7	Which of the following can I help you with? 	DISH Network Business Rules 	aq7dnbr1	q37																					
 
-      .bot {
-        align-self: flex-start;
-        background-color: var(--light-gray);
-        color: var(--dark-gray);
-        font-weight: 400;
-      }
 
-      button {
-        padding: 10px;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius);
-        cursor: pointer;
-        margin-bottom: 10px;
-        transition: all 0.3s ease;
-        font-size: var(--font-size);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      }
 
-      button:hover {
-        background-color: var(--hover-color);
-      }
+        // ... add other question objects with the same structure as above
+      };
+      const chatBox = document.getElementById("chat-box");
+      const reset = document.getElementById("reset");
+      const previousQuestion = document.getElementById("previous-question");
+      let currentQuestionID = "q1";
+      let previousQuestionID = null;
+      const showMessage = (message, type) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('chat-message', type);
+        messageElement.textContent = message;
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      };
+      const displayChoices = (choices) => {
+        choices.forEach(choice => {
+          const button = document.createElement('button');
+          button.textContent = choice;
+          button.onclick = () => {
+            handleChoice(choice);
+          };
+          chatBox.appendChild(button);
+        });
+      };
+      const handleChoice = (choice) => {
+        const questionData = chatData[currentQuestionID];
+        const choiceKeys = Object.keys(questionData.Choices);
+        const matchingChoiceKey = choiceKeys.find(key => questionData.Choices[key].toLowerCase() === choice.toLowerCase());
+        if (matchingChoiceKey) {
+          const answerID = questionData.Answer_ID[matchingChoiceKey];
+          const nextQuestionID = questionData.Next_Question_ID[matchingChoiceKey];
+          showMessage(choice, 'user');
+          chatBox.innerHTML = ''; // Clear the chat box before showing the next question
+          if (chatData[nextQuestionID]) {
+            previousQuestionID = currentQuestionID;
+            currentQuestionID = nextQuestionID;
+            showMessage(chatData[currentQuestionID].Question, 'bot');
+            displayChoices(Object.values(chatData[currentQuestionID].Choices));
+          } else {
+            currentQuestionID = null;
+          }
+        } else {
+          showMessage("Sorry, I don't understand that.", 'bot');
+        }
+      };
 
-      button:active {
-        transform: translateY(2px);
-        box-shadow: none;
-      }
+      const resetChat = () => {
+        currentQuestionID = "q1";
+        previousQuestionID = null;
+        chatBox.innerHTML = '';
+        showMessage(chatData[currentQuestionID].Question, 'bot');
+        displayChoices(Object.values(chatData[currentQuestionID].Choices));
+      };
 
-      #button-container {
-        display: flex;
-        justify-content: space-between;
-      }
-</style>
+   const goToPreviousQuestion = () => {
+        if (previousQuestionID) {
+          currentQuestionID = previousQuestionID;
+          previousQuestionID = null;
+          resetChat();
+        }
+      };
+
+
+      reset.addEventListener('click', resetChat);
+      previousQuestion.addEventListener('click', goToPreviousQuestion);
+      resetChat();
+    });
+  </script>
+</body>
+
+</html>
+
+
  
